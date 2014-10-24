@@ -1,0 +1,69 @@
+#Guess the number IIP Mini-Project # 2 
+http://www.codeskulptor.org/#user38_cMB6p2vmpJD1hIL.py
+
+# template for "Guess the number" mini-project
+# input will come from buttons and an input field
+# all output for the game will be printed in the console
+import simplegui
+import math
+import random
+
+bottombound=0
+upperbound=100
+numguesses = 7
+randomnum = 0
+# helper function to start and restart the game
+def new_game():
+    global randomnum
+    print "New game. Range is from " + str(bottombound) + " to " + str(upperbound)
+    print "Number of remaining guesses is " + str(numguesses)
+    randomnum = random.randrange(bottombound,upperbound)
+
+# define event handlers for control panel
+def range100():
+    # button that changes the range to [0,100) and starts a new game 
+    global upperbound,numguesses
+    upperbound = 100
+    numguesses = 7
+    new_game()
+    return 
+
+def range1000():
+    # button that changes the range to [0,1000) and starts a new game     
+    global upperbound, numguesses
+    upperbound=1000
+    numguesses= 10
+    new_game()
+    return
+    
+def input_guess(guess):
+    # main game logic goes here
+    global upperbound,bottombound,numguesses, randomnum
+    user_guess = int(guess)
+    numguesses-=1
+    print "Guess was " + str(user_guess)
+    print "Number of remaining guesses is " + str(numguesses)
+    if numguesses==0:
+        print "Game over, the number was " + str(randomnum) + " try again? \n"
+        new_game()
+    elif randomnum>user_guess:
+        print "Higher! \n"
+    elif randomnum<user_guess:
+        print "Lower! \n"
+    else:
+        print "Correct! Play again! \n"
+        new_game()
+
+    
+# create frame
+frame= simplegui.create_frame("Guess the number",200,200,200)
+
+# register event handlers for control elements and start frame
+frame.add_button("Range is [0,100)",range100)
+frame.add_button("Range is [0,1000)",range1000)
+frame.add_input("enter a guess",input_guess,50)
+
+# call new_game 
+new_game()
+
+# always remember to check your completed program against the grading rubric
